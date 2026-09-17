@@ -9,10 +9,12 @@ public class GameController {
 
     private final Stage stage;
     private final Player player;
+    private final CollisionSystem collisionSystem;
 
     public GameController(Stage stage, Player player) {
         this.stage = stage;
         this.player = player;
+        this.collisionSystem = new CollisionSystem();
     }
 
     public void show() {
@@ -32,22 +34,50 @@ public class GameController {
             switch (event.getCode()) {
 
                 case UP -> {
-                    player.move(0, -5);
+
+                    double newX = player.getX();
+                    double newY = player.getY() - 5;
+
+                    if (collisionSystem.canMove(newX, newY, 60, 60)) {
+                        player.move(0, -5);
+                    }
+
                     view.setDirection(3);
                 }
 
                 case DOWN -> {
-                    player.move(0, 5);
+
+                    double newX = player.getX();
+                    double newY = player.getY() + 5;
+
+                    if (collisionSystem.canMove(newX, newY, 60, 60)) {
+                        player.move(0, 5);
+                    }
+
                     view.setDirection(0);
                 }
 
                 case LEFT -> {
-                    player.move(-5, 0);
+
+                    double newX = player.getX() - 5;
+                    double newY = player.getY();
+
+                    if (collisionSystem.canMove(newX, newY, 60, 60)) {
+                        player.move(-5, 0);
+                    }
+
                     view.setDirection(1);
                 }
 
                 case RIGHT -> {
-                    player.move(5, 0);
+
+                    double newX = player.getX() + 5;
+                    double newY = player.getY();
+
+                    if (collisionSystem.canMove(newX, newY, 60, 60)) {
+                        player.move(5, 0);
+                    }
+
                     view.setDirection(2);
                 }
             }

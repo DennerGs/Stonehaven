@@ -46,6 +46,29 @@ public class GameView {
         world.getTransforms().add(
                 new Scale(ZOOM, ZOOM, 0, 0)        );
 
+        Rectangle houseCollisionLeft = new Rectangle(
+                350,
+                375,
+                40,
+                60
+        );
+
+        houseCollisionLeft.setOpacity(0.5);
+
+        Rectangle houseCollisionRight = new Rectangle(
+                420,
+                375,
+                50,
+                60
+        );
+
+        houseCollisionRight.setOpacity(0.5);
+
+        world.getChildren().addAll(
+                houseCollisionLeft,
+                houseCollisionRight
+        );
+
         StackPane game = new StackPane();
 
         game.setAlignment(Pos.TOP_LEFT);
@@ -77,11 +100,23 @@ public class GameView {
             return;
         }
 
-        double playerCenterX = player.getX() + 64;
-        double playerCenterY = player.getY() + 64;
+        double playerCenterX = player.getX() + 30;
+        double playerCenterY = player.getY() + 30;
 
         double cameraX = 400 - (playerCenterX * ZOOM);
         double cameraY = 300 - (playerCenterY * ZOOM);
+
+        double mapWidth = 1024 * ZOOM;
+        double mapHeight = 1024 * ZOOM;
+
+        double screenWidth = 800;
+        double screenHeight = 600;
+
+        double minCameraX = screenWidth - mapWidth;
+        double minCameraY = screenHeight - mapHeight;
+
+        cameraX = Math.min(0, Math.max(minCameraX, cameraX));
+        cameraY = Math.min(0, Math.max(minCameraY, cameraY));
 
         world.setTranslateX(cameraX);
         world.setTranslateY(cameraY);
